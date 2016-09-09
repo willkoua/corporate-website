@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load bootstrap3 %}
+<html>
+    <head>
+        <meta charset="UTF-8">
+
+        <title>{% block title %}FourFree {% endblock %}</title>
+        <meta name="description" content="{% block pagedesc %}FourFree {% endblock %}"/>
+        <meta name="keywords" content="{% block pagekey %}{% endblock %}" />
+        <!-- end: Meta -->
+
+        <!-- start: Mobile Specific -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <!-- end: Mobile Specific -->
+
+        <!-- start: Facebook Open Graph -->
+        <meta property="og:title" content="{% block fbpagetitle %}{% endblock %}"/>
+        <meta property="og:description" content="{% block fbpagedesc %}{% endblock %}"/>
+        <meta property="og:type" content="{% block fbpagetype %}{% endblock %}"/>
+        <meta property="og:url" content="{% block fbpageurl %}{% endblock %}"/>
+        <meta property="og:image" content="{% block fbpageimg %}{% endblock %}"/>
+        <!-- end: Facebook Open Graph -->
+
+        <!--link rel="icon" type="image/png" href="" /-->
+
+        {# Load CSS and JavaScript #}
+        {% bootstrap_css %}
+            <link rel="stylesheet" href="{% static 'css/libs/font-awesome.min.css' %}">
+            <link href="{% static 'css/libs/style.css' %}" rel="stylesheet">
+            <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,800,700,300' rel='stylesheet' type='text/css'>
+            <link href='http://fonts.googleapis.com/css?family=BenchNine:300,400,700' rel='stylesheet' type='text/css'>
+
+        {% block extrahead %}{% endblock %}
+    </head>
+
+    <body>
+        {% include 'header.html' %}
+
+        <div class="body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-10">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'error' %}
+                                    <div class="alert alert-danger alert-dismissible system-message" style="margin-top: 10px;">
+                                {% elif message.tags == 'success'%}
+                                    <div class="alert alert-success alert-dismissible system-message" style="margin-top: 10px;">
+                                {% elif message.tags == 'info'%}
+                                    <div class="alert alert-info alert-dismissible system-message" style="margin-top: 10px;">
+                                {% elif message.tags == 'warning'%}
+                                    <div class="alert alert-warning alert-dismissible system-message" style="margin-top: 10px;">
+                                {% else %}
+                                    <div class="alert alert-info alert-dismissible system-message" style="margin-top: 10px;">
+                                {% endif %}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {{ message }}
+                            {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+            {% block content %}{% endblock %}
+        </div>
+
+
+        {% include 'footer.html' %}
+
+        <script src="{% static 'js/libs/jquery-2.2.2.min.js' %}" type="application/javascript"></script>
+
+        {% bootstrap_javascript %}
+        <!-- WARNING :  Do not move this line before a manual import of script! -->
+        {% block extrajs %}{% endblock %}
+    </body>
+</html>
